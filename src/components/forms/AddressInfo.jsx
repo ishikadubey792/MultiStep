@@ -8,17 +8,16 @@ const AddressInfo = () => {
 
   const form = useForm({
     defaultValues: {
-      address: userData.address,
-      country: userData.country,
-      state: userData.state,
-      city: userData.city,
-      zipCode: userData.zipCode,
+      address: "",
+      country: "",
+      state: "",
+      city: "",
+      zipCode: "",
     },
   });
-  const { register, handleSubmit, formState, control } = form;
+  const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
-console.log(userData);
   const onSubmit = (data) => {
     setUserData({
       ...userData,
@@ -28,7 +27,6 @@ console.log(userData);
       city: data.city,
       zipCode: data.zipCode,
     });
-    console.log("Form Submitted", data);
     handleNextStep();
   };
   return (

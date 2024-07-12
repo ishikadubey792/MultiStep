@@ -1,9 +1,9 @@
 import React from 'react';
-import {Card, CardActions , CardContent, CardMedia,Button,Typography,Avatar} from "@mui/material";
+import {Card, CardActions , CardContent,Button,Typography,Avatar} from "@mui/material";
 import { useUserContext } from '../userContext';
 
 export default function UserCard({data}) {
-    const {handleDelete , handleUpdate} = useUserContext();
+    const {handleDelete} = useUserContext();
   return (
     <Card sx={{minHeight:300}}>
       <Avatar sx={{width:70, height:70 , margin:"10px auto"}}>
@@ -25,7 +25,7 @@ export default function UserCard({data}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button sx={{color:"green"}} onClick={()=>{handleUpdate(data)}} size="small">Update</Button>
+        <Button sx={{color:"green"}} size="small">Update</Button>
         <Button sx={{color:"red"}} onClick={()=>handleDelete(data.email)} size="small">Delete</Button>
       </CardActions>
     </Card>

@@ -5,9 +5,7 @@ const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [stepsCount, setStepsCount] = useState(1);
-  const [userData, setUserData] = useState({
-   
-  });
+  const [userData, setUserData] = useState({});
   const [allData , setAllData] = useState([]);
 
   const handleDelete = (email) => {
@@ -18,21 +16,7 @@ export const UserContextProvider = ({ children }) => {
         localStorage.setItem("multi-step-form-data",JSON.stringify(updatedData))
       }
   }
-  const handleUpdate = (data) =>{
-      handleOpen();
-      setStepsCount(1);
-      setUserData({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        address: data.address,
-        country: data.country,
-        state: data.state,
-        city: data.city,
-        zipCode: data.zipCode,
-        phoneNumber: data.phoneNumber,
-      });
-  }
+ 
   const handleNextStep = () => {
     if (stepsCount < 3) {
       setStepsCount((prev) => prev + 1);
@@ -48,7 +32,7 @@ export const UserContextProvider = ({ children }) => {
      const allData = JSON.parse(localStorage.getItem('multi-step-form-data')) || [];
      setAllData(allData);
   },[localStorage])
-  console.log(allData);
+  // console.log(allData);
 
   return (
     <UserContext.Provider
@@ -64,7 +48,6 @@ export const UserContextProvider = ({ children }) => {
         allData,
         setAllData,
         handleDelete,
-        handleUpdate
       }}
     >
       {children}

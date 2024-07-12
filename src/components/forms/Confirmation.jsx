@@ -32,17 +32,7 @@ const Confirmation = () => {
         "multi-step-form-data",
         JSON.stringify(newUpdatedData)
       );
-      setUserData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        address: "",
-        country: "",
-        state: "",
-        city: "",
-        zipCode: "",
-      });
+      setUserData({});
       setStepsCount(1);
       handleOpen();
     }
