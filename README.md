@@ -5,7 +5,7 @@
 This project is built using React.js, Context API, Localstorage, and Material UI to provide users with a seamless Multi-Step-form-Data experience.
 
 ## Hosted Link
-[explore](https://first-smile.netlify.app/) 
+[explore](https://ishika-multi-step-form.netlify.app/) 
 
 ## Features
 - **Responsive Design:** We ensure our platform adjusts flawlessly to various screens, promising a smooth and enjoyable user experience across different devices.
