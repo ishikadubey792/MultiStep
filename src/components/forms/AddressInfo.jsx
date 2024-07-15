@@ -1,12 +1,25 @@
-import { Stack, TextField, Button } from "@mui/material";
+import { Stack, TextField, Button, styled } from "@mui/material";
 import React, { useEffect } from "react";
 import { useUserContext } from "../../userContext";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+
+const SwitchButton = styled(Button)({
+  backgroundImage:
+  "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+  "&:hover": {
+    backgroundImage:
+          "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+  },
+  "&:disabled": {
+    backgroundImage: "none"
+  }
+})
 
 const AddressInfo = () => {
-  const { handleBackStep, handleNextStep, stepsCount, setUserData , userData} = useUserContext();
+  const { handleBackStep, handleNextStep, stepsCount, setUserData, userData } =
+    useUserContext();
 
-  const form = useForm({
+  const { control, handleSubmit, setValue, formState, reset } = useForm({
     defaultValues: {
       address: "",
       country: "",
@@ -15,7 +28,7 @@ const AddressInfo = () => {
       zipCode: "",
     },
   });
-  const { register, handleSubmit, formState } = form;
+
   const { errors } = formState;
 
   const onSubmit = (data) => {
@@ -29,51 +42,125 @@ const AddressInfo = () => {
     });
     handleNextStep();
   };
+
+  useEffect(() => {
+    if (
+      userData.address &&
+      userData.country &&
+      userData.state &&
+      userData.city &&
+      userData.zipCode
+    ) {
+      setValue("address", userData.address, {
+        shouldDirty: true,
+        shouldValidate: true,
+        shouldTouch: true,
+      });
+      setValue("country", userData.country, {
+        shouldDirty: true,
+        shouldValidate: true,
+        shouldTouch: true,
+      });
+      setValue("state", userData.state, {
+        shouldDirty: true,
+        shouldValidate: true,
+        shouldTouch: true,
+      });
+      setValue("city", userData.city, {
+        shouldDirty: true,
+        shouldValidate: true,
+        shouldTouch: true,
+      });
+      setValue("zipCode", userData.zipCode, {
+        shouldDirty: true,
+        shouldValidate: true,
+        shouldTouch: true,
+      });
+    } else {
+      reset({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+      });
+    }
+  }, [userData, setValue]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap={2} mt={4}>
-        <TextField value={userData?.address}
-          label="Address Line"
-          type="text"
-          {...register("address", { required: "Address is Required" })}
-          error={!!errors.address}
-          helperText={errors.address?.message}
+        <Controller
+          name="address"
+          control={control}
+          rules={{ required: "Address is Required" }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Address Line"
+              error={!!errors.address}
+              helperText={errors.address?.message}
+            />
+          )}
         />
         <Stack direction={"row"} gap={2}>
-          <TextField value={userData?.country}
-            label="Country"
-            type="text"
-            {...register("country", { required: "Country is Required" })}
-            error={!!errors.country}
-            helperText={errors.country?.message}
+          <Controller
+            name="country"
+            control={control}
+            rules={{ required: "Country is Required" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Country"
+                error={!!errors.country}
+                helperText={errors.country?.message}
+              />
+            )}
           />
-          <TextField value={userData?.state}
-            label="State"
-            type="text"
-            {...register("state", { required: "State is Required" })}
-            error={!!errors.state}
-            helperText={errors.state?.message}
+          <Controller
+            name="state"
+            control={control}
+            rules={{ required: "State is Required" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="State"
+                error={!!errors.state}
+                helperText={errors.state?.message}
+              />
+            )}
           />
         </Stack>
         <Stack direction={"row"} gap={2}>
-          <TextField value={userData?.city}
-            label="City"
-            type="text"
-            {...register("city", { required: "City is Required" })}
-            error={!!errors.city}
-            helperText={errors.city?.message}
+          <Controller
+            name="city"
+            control={control}
+            rules={{ required: "City is Required" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="City"
+                error={!!errors.city}
+                helperText={errors.city?.message}
+              />
+            )}
           />
-          <TextField value={userData?.zipCode}
-            label="Zip Code"
-            type="text"
-            {...register("zipCode", { required: "Zip Code is Required" })}
-            error={!!errors.zipCode}
-            helperText={errors.zipCode?.message}
+          <Controller
+            name="zipCode"
+            control={control}
+            rules={{ required: "Zip Code is Required" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Zip Code"
+                error={!!errors.zipCode}
+                helperText={errors.zipCode?.message}
+              />
+            )}
           />
         </Stack>
       </Stack>
       <Stack direction={"row"} justifyContent={"space-between"} mt={4}>
-        <Button
+        <SwitchButton
           onClick={handleBackStep}
           disabled={stepsCount < 2}
           type="button"
@@ -81,10 +168,10 @@ const AddressInfo = () => {
           color="primary"
         >
           Back
-        </Button>
-        <Button type="submit" variant="contained" color="primary">
+        </SwitchButton>
+        <SwitchButton type="submit" variant="contained" color="primary">
           {stepsCount === 3 ? "Submit" : "Next"}
-        </Button>
+        </SwitchButton>
       </Stack>
     </form>
   );

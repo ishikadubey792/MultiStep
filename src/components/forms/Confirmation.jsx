@@ -5,10 +5,23 @@ import {
   Checkbox,
   FormControlLabel,
   Button,
+  styled,
 } from "@mui/material";
 import React from "react";
 import { useUserContext } from "../../userContext";
 import { useState } from "react";
+
+const SwitchButton = styled(Button)({
+  backgroundImage:
+    "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+  "&:hover": {
+    backgroundImage:
+      "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+  },
+  "&:disabled": {
+    backgroundImage: "none",
+  },
+});
 
 const Confirmation = () => {
   const {
@@ -20,23 +33,32 @@ const Confirmation = () => {
     handleOpen,
     allData,
     setAllData,
+    handleUpdate,
   } = useUserContext();
   const [check, setCheck] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (check) {
-      const newUpdatedData = [userData, ...allData];
-      // handle your form submission here
-      setAllData(newUpdatedData);
-      localStorage.setItem(
-        "multi-step-form-data",
-        JSON.stringify(newUpdatedData)
-      );
+      const emailExist = allData.find((user) => user.email === userData.email);
+      if (emailExist) {
+        handleUpdate(userData.email, userData);
+      } else {
+        const newUpdatedData = [userData, ...allData].sort(
+          (a, b) => b.firstName - a.firstName
+        );
+        setAllData(newUpdatedData);
+        localStorage.setItem(
+          "multi-step-form-data",
+          JSON.stringify(newUpdatedData)
+        );
+      }
       setUserData({});
       setStepsCount(1);
       handleOpen();
     }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <Stack mt={4}>
@@ -69,7 +91,7 @@ const Confirmation = () => {
             Address:
           </Typography>
           <Typography ml={1} variant="body2">
-            {userData.address}, {userData.city} , {userData.state}-
+            {userData.address}, {userData.city}, {userData.state} -{" "}
             {userData.zipCode} {userData.country}
           </Typography>
         </Box>
@@ -88,7 +110,7 @@ const Confirmation = () => {
         </Box>
       </Stack>
       <Stack direction={"row"} justifyContent={"space-between"} mt={4}>
-        <Button
+        <SwitchButton
           onClick={handleBackStep}
           disabled={stepsCount < 2}
           type="button"
@@ -96,10 +118,10 @@ const Confirmation = () => {
           color="primary"
         >
           Back
-        </Button>
-        <Button type="submit" variant="contained" color="primary">
+        </SwitchButton>
+        <SwitchButton type="submit" variant="contained" color="primary">
           {stepsCount === 3 ? "Submit" : "Next"}
-        </Button>
+        </SwitchButton>
       </Stack>
     </form>
   );

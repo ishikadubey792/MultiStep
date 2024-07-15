@@ -10,7 +10,6 @@ import {
 import PersonalInfo from "./forms/PersonalInfo";
 import AddressInfo from "./forms/AddressInfo";
 import Confirmation from "./forms/Confirmation";
-import { Height } from "@mui/icons-material";
 
 const ModalBox = styled(Stack)(({theme})=>({
   minWidth:400,
